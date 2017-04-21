@@ -2,6 +2,25 @@
 
 #include <iostream>
 #include <windows.h>
+#include <Gdiplus.h>
+#include <vector>
+
+struct vRGB
+{
+	vRGB()
+		: R(0), G(0), B(0)
+	{
+
+	}
+
+	vRGB(BYTE r, BYTE g, BYTE b)
+		: R(r), G(b), B(b)
+	{
+
+	}
+
+	BYTE R, G, B;
+};
 
 struct TdCords
 {
@@ -58,15 +77,20 @@ public:
 
 	int capX;
 	int capY;
+	BYTE* screenData = 0;
 
 	HDC hdcSource;
 	HDC hdcMemory;
 	HBITMAP theBitmap;
 
+	HWND dummyHWND = CreateWindowA("STATIC", "dummy", NIS_HIDDEN, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+
 	void Init();
 
 	void UpdateBitmapDebugMoreCords(int x, int y, int w, int h);
 	void UpdateBitmap(int w, int h, bool debugFlag);
+	Colors GetPixelRGBbitmap(TdCords cords, HBITMAP bitmap);
+	//Colors GetPixelRGBb(TdCords cords, HBITMAP bitmap);
 
 	TdCords GetMousePos();
 	void SetMousePos(TdCords cords);
