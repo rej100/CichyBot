@@ -47,6 +47,26 @@ void CichyBot::UpdateBitmap(int w, int h, bool debugFlag)
 	}
 }
 
+HBITMAP CichyBot::CaptureToBitmap(TdCords upperLeft, TdCords lowerRight, bool debugFlag)
+{
+	HBITMAP hBitmap;
+	hBitmap = CreateCompatibleBitmap(hdcSource, lowerRight.x, lowerRight.y);
+	HBITMAP hBitmapOld = (HBITMAP)SelectObject(hdcMemory, hBitmap);
+	BitBlt(hdcMemory, 0, 0, lowerRight.x, lowerRight.y, hdcSource, upperLeft.x +1, upperLeft.y +1, SRCCOPY);
+	hBitmap = (HBITMAP)SelectObject(hdcMemory, hBitmapOld);
+
+	if (debugFlag)
+	{
+		OpenClipboard(NULL);
+		EmptyClipboard();
+		SetClipboardData(CF_BITMAP, hBitmap);
+		CloseClipboard();
+	}
+
+	return hBitmap;
+
+}
+
 /*
 
 Colors CichyBot::GetPixelRGBb(TdCords cords, HBITMAP bitmap)
@@ -166,7 +186,7 @@ void CichyBot::SetMousePos(TdCords cords)
 Colors CichyBot::GetPixelRGB(TdCords cords, HDC hDC)
 {
 	COLORREF pix;
-	pix = GetPixel(hDC, cords.x + xPad, cords.y + yPad);
+	pix = GetPixel(hDC, cords.x + xPad + 1, cords.y + yPad + 1);
 
 	unsigned int r = GetRValue(pix);
 	unsigned int g = GetGValue(pix);

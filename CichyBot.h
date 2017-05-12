@@ -89,6 +89,9 @@ public:
 
 	void UpdateBitmapDebugMoreCords(int x, int y, int w, int h);
 	void UpdateBitmap(int w, int h, bool debugFlag);
+
+	HBITMAP CaptureToBitmap(TdCords upperLeft, TdCords lowerRight, bool debugFlag);
+
 	Colors GetPixelRGBbitmap(TdCords cords, HBITMAP bitmap);
 	//Colors GetPixelRGBb(TdCords cords, HBITMAP bitmap);
 
