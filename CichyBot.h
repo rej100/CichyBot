@@ -18,6 +18,7 @@ struct vRGB
 	{
 
 	}
+	
 
 	BYTE R, G, B;
 };
@@ -51,6 +52,11 @@ struct Colors
 		: r(r), g(g), b(b)
 	{
 
+	}
+
+	bool operator== (Colors other)
+	{
+		return r == other.r && g == other.g && b == other.b;
 	}
 
 
@@ -94,6 +100,7 @@ public:
 
 	Colors GetPixelRGBbitmap(TdCords cords, HBITMAP bitmap);
 	//Colors GetPixelRGBb(TdCords cords, HBITMAP bitmap);
+	Colors SumBitmapRGB(HBITMAP bitmap);
 
 	TdCords GetMousePos();
 	void SetMousePos(TdCords cords);

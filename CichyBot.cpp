@@ -164,6 +164,43 @@ Colors CichyBot::GetPixelRGBbitmap(TdCords cords, HBITMAP bitmap)
 	return Colors(r, g, b);
 }
 
+Colors CichyBot::SumBitmapRGB(HBITMAP bitmap)
+{
+
+	BITMAP bi;
+
+	//Get the Height and Width
+	GetObject(bitmap, sizeof(bi), &bi);
+	int width = bi.bmWidth; int height = bi.bmHeight;
+
+	//Allocate and Initialize enough memory for external (Y-dimension) array
+	//pixel.resize(Height);
+
+	//Create a memory device context and place your bitmap
+	HDC hDC = GetDC(dummyHWND);
+	HDC hMemDC = CreateCompatibleDC(hDC);
+	SelectObject(hMemDC, bitmap);
+
+	unsigned int tR, tG, tB;
+	COLORREF tempPix;
+
+	for (int x = 0; x < width; ++x)
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			tempPix = GetPixel(hMemDC, x, y);
+			tR += GetRValue(tempPix);
+			tG += GetGValue(tempPix);
+			tB += GetBValue(tempPix);
+		}
+	}
+
+	DeleteDC(hMemDC);
+	ReleaseDC(dummyHWND, hDC);
+
+	return Colors(tR, tG, tB);
+}
+
 
 
 TdCords CichyBot::GetMousePos()
