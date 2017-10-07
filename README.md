@@ -1,2 +1,2 @@
 # CichyBot
-A C++ library for making simple bots.
+## A C++ library for making simple bots.
